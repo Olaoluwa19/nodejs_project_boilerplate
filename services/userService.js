@@ -8,8 +8,8 @@ class UserService {
     return await User.find().select("-password").lean();
   }
 
-  static async findUserById(userId) {
-    return await User.findOne({ _id: userId }).select("-password").exec();
+  static async findUserById(id) {
+    return await User.findById(id).exec();
   }
 
   static async createUser(userObject) {
