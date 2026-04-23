@@ -5,5 +5,6 @@ const api = express.Router();
 
 // Define API routes here
 api.use("/", root);
+api.use("/users", userRoutes);
 
 export default api;
