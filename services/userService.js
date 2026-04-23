@@ -12,27 +12,8 @@ class UserService {
     return await User.findOne({ _id: userId }).select("-password").exec();
   }
 
-  static async createUserField(request, hashedPassword, imageUrl) {
-    const { name, email, phone, gender, dob, address, roles } = request.body;
-
-    // Basic validations
-    if (!imageUrl) throw new Error("Image upload failed");
-    if (!name || !email) throw new Error("Name & email required");
-    // Simple email format validation
-    if (!validator.isEmail(email)) throw new Error("Invalid email format");
-    // Validate role
-    if (![5684, 1973, 3956].includes(roles))
-      throw new Error(`Invalid role specified, ${roles} is not allowed.`);
-
-    const user = await User.create({
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      password: hashedPassword,
-      phone,
-      roles: [roles],
-    });
-
-    return user;
+  static async createUser(userObject) {
+    return await User.create(userObject);
   }
 
   static async checkDuplicateUser(email, roles) {
