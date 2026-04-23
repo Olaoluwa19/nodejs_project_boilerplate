@@ -36,13 +36,15 @@ class UserService {
   }
 
   static async checkDuplicateUser(email, roles) {
-    return await User.findOne({ email, roles }).exec();
+    return await User.findOne({ email, roles }).select("-password").exec();
   }
 
   static async findUserByEmailOrPhone(identifier) {
     return await User.findOne({
       $or: [{ phone: identifier }, { email: identifier }],
-    }).exec();
+    })
+      .select("-password")
+      .exec();
   }
 
   static async deleteUser(id) {
