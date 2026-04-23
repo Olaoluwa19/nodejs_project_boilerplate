@@ -4,6 +4,14 @@ import validator from "validator";
 class UserService {
   constructor() {}
 
+  static async findAllUsers() {
+    return await User.find().select("-password").lean();
+  }
+
+  static async findUserById(userId) {
+    return await User.findOne({ _id: userId }).select("-password").exec();
+  }
+
   static async createUserField(request, hashedPassword, imageUrl) {
     const { name, email, phone, gender, dob, address, roles } = request.body;
 
@@ -25,10 +33,6 @@ class UserService {
     });
 
     return user;
-  }
-
-  static async findUserById(userId) {
-    return await User.findOne({ _id: userId }).exec();
   }
 
   static async checkDuplicateUser(email, roles) {
